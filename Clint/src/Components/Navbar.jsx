@@ -75,7 +75,7 @@ const Navbar = () => {
           } h-7 transition-all duration-500`}
         />
         <button
-          className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${
+          className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 border-2 border-white ease-in-out hover:text-white hover:bg-transparent hover:border-2 hover:border-white  ${
             isScrolled ? "text-white bg-black" : "bg-white text-black"
           }`}
         >

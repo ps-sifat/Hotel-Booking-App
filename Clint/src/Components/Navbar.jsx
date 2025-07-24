@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 
 const BookIcon = () => (
   <svg
-    className="w-4 h-4 text-gray-700"
+    className="w-4 h-4 text-white"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -31,61 +31,53 @@ const Navbar = () => {
     { name: "About", path: "/" },
   ];
 
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const { openSignIn } = useClerk();
   const { user } = useUser();
   const navigate = useNavigate();
-  const location = useLocation;
+  const location = useLocation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
+    handleScroll(); // Call on mount
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 transition-all duration-500 z-50 ${
-        isScrolled
-          ? "bg-white/80 shadow-md text-gray-700 backdrop-blur-lg py-3 md:py-4"
-          : "py-4 md:py-6"
-      }`}
+      className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 z-50 transition-all duration-500 ${
+        isScrolled ? "py-3 md:py-4" : "py-4 md:py-6"
+      } text-white`}
     >
       {/* Logo */}
       <Link to="/">
         <img
           src={assets.logo}
           alt="logo"
-          className={`h-9 ${isScrolled && "invert opacity-80"}`}
+          className={`h-9 ${isScrolled ? "opacity-80" : ""}`}
         />
       </Link>
 
       {/* Desktop Nav */}
-      <div className="hidden md:flex items-center gap-4 lg:gap-8">
+      <div className="hidden md:flex items-center gap-6 lg:gap-10">
         {navLinks.map((link, i) => (
-          <a
+          <Link
             key={i}
-            href={link.path}
-            className={`group flex flex-col gap-0.5 ${
-              isScrolled ? "text-gray-700" : "text-white"
-            }`}
+            to={link.path}
+            className="group text-white flex flex-col gap-0.5 text-sm font-medium"
           >
             {link.name}
-            <div
-              className={`${
-                isScrolled ? "bg-gray-700" : "bg-white"
-              } h-0.5 w-0 group-hover:w-full transition-all duration-300`}
-            />
-          </a>
+            <div className="bg-white h-0.5 w-0 group-hover:w-full transition-all duration-300" />
+          </Link>
         ))}
         <button
-          className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${
-            isScrolled ? "text-black" : "text-white"
-          } transition-all`}
+          onClick={() => navigate("/owner")}
+          className="border border-white px-4 py-1 text-sm rounded-full text-white hover:bg-white hover:text-black transition-all"
         >
           Dashboard
         </button>
@@ -96,9 +88,7 @@ const Navbar = () => {
         <img
           src={assets.searchIcon}
           alt="search"
-          className={`${
-            isScrolled && "invert"
-          } h-7 transition-all duration-500`}
+          className="h-6 filter invert brightness-0"
         />
         {user ? (
           <UserButton>
@@ -113,9 +103,7 @@ const Navbar = () => {
         ) : (
           <button
             onClick={() => openSignIn()}
-            className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 border-2 border-white ease-in-out hover:text-white hover:bg-transparent hover:border-2 hover:border-white cursor-pointer ${
-              isScrolled ? "text-white bg-black" : "bg-white text-black"
-            }`}
+            className="bg-black text-white px-6 py-2 rounded-full hover:bg-transparent border-2 border-transparent transition-all  hover:text-white hover:border-white hover:border-2"
           >
             Login
           </button>
@@ -124,45 +112,67 @@ const Navbar = () => {
 
       {/* Mobile Menu Button */}
       <div className="flex items-center gap-3 md:hidden">
+        {user && (
+          <UserButton>
+            <UserButton.MenuItems>
+              <UserButton.Action
+                label="My Bookings"
+                labelIcon={<BookIcon />}
+                onClick={() => navigate("/my-bookings")}
+              />
+            </UserButton.MenuItems>
+          </UserButton>
+        )}
         <img
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           src={assets.menuIcon}
           alt="menuIcon"
-          className={`${isScrolled && "invert"} h-4`}
+          className="h-5 filter invert brightness-0 "
         />
       </div>
 
       {/* Mobile Menu */}
       <div
-        className={`fixed top-0 left-0 w-full h-screen bg-white text-base flex flex-col md:hidden items-center justify-center gap-6 font-medium text-gray-800 transition-all duration-500 ${
+        className={`fixed top-0 left-0 w-full h-screen bg-white text-black flex flex-col md:hidden items-center justify-center gap-6 font-medium transition-all duration-500 ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <button
-          className="absolute top-4 right-4"
+          className="absolute top-4 right-4 p-2 "
           onClick={() => setIsMenuOpen(false)}
         >
-          <img src={assets.closeIcon} alt="closeIcon" className="h-6.5" />
+          <img src={assets.closeIcon} alt="closeIcon" className="h-5" />
         </button>
 
         {navLinks.map((link, i) => (
-          <a key={i} href={link.path} onClick={() => setIsMenuOpen(false)}>
+          <Link
+            key={i}
+            to={link.path}
+            onClick={() => setIsMenuOpen(false)}
+            className="text-lg "
+          >
             {link.name}
-          </a>
+          </Link>
         ))}
 
-        <button className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
-          Dashboard
-        </button>
-
-        <button
-          onClick={() => openSignIn()}
-          className="bg-black text-white px-8 py-2.5 rounded-full transition-all duration-500"
-        >
-          Login
-        </button>
+        {user ? (
+          <button
+            onClick={() => navigate("/owner")}
+            className="border px-4 py-1 text-sm font-light rounded-full"
+          >
+            Dashboard
+          </button>
+        ) : (
+          <button
+            onClick={() => openSignIn()}
+            className="bg-black text-white px-6 py-2 rounded-full"
+          >
+            Login
+          </button>
+        )}
       </div>
     </nav>
   );
 };
+
 export default Navbar;

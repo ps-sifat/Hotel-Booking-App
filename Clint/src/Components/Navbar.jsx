@@ -54,7 +54,6 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [location.pathname]);
 
-
   return (
     <nav
       className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 z-50 transition-all duration-500 ${
@@ -125,7 +124,11 @@ const Navbar = () => {
         ) : (
           <button
             onClick={() => openSignIn()}
-            className="bg-black text-white px-6 py-2 rounded-full hover:bg-transparent border-2 border-transparent transition-all  hover:text-white hover:border-white hover:border-2"
+            className={`px-6 py-2 rounded-full border-2 transition-all ease-in-out ${
+              isScrolled
+                ? " border-black bg-black text-white hover:bg-white hover:text-black"
+                : "bg-black text-white border-transparent hover:bg-transparent hover:text-white hover:border-white"
+            }`}
           >
             Login
           </button>

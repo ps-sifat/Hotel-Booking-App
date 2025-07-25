@@ -41,12 +41,19 @@ const Navbar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (location.pathname === "/") {
+        setIsScrolled(window.scrollY > 10);
+      } else {
+        setIsScrolled(true); // Always scrolled style on other pages
+      }
     };
-    handleScroll(); // Call on mount
+
+    handleScroll(); // Call immediately on mount or route change
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
+
 
   return (
     <nav

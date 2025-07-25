@@ -51,7 +51,9 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 w-full flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 z-50 transition-all duration-500 ${
-        isScrolled ? "py-3 md:py-4" : "py-4 md:py-6"
+        isScrolled
+          ? "py-3 md:py-4 bg-white/80 shadow-md text-gray-700 backdrop-blur-lg  "
+          : "py-4 md:py-6"
       } text-white`}
     >
       {/* Logo */}
@@ -59,7 +61,7 @@ const Navbar = () => {
         <img
           src={assets.logo}
           alt="logo"
-          className={`h-9 ${isScrolled ? "opacity-80" : ""}`}
+          className={`h-9 ${isScrolled ? "invert opacity-80  " : ""}`}
         />
       </Link>
 
@@ -69,15 +71,25 @@ const Navbar = () => {
           <Link
             key={i}
             to={link.path}
-            className="group text-white flex flex-col gap-0.5 text-sm font-medium"
+            className={`group flex flex-col gap-0.5 text-sm font-medium ${
+              isScrolled ? "text-black" : "text-white"
+            }`}
           >
             {link.name}
-            <div className="bg-white h-0.5 w-0 group-hover:w-full transition-all duration-300" />
+            <div
+              className={`h-0.5 w-0 group-hover:w-full transition-all duration-300 ${
+                isScrolled ? "bg-black" : "bg-white"
+              }`}
+            />
           </Link>
         ))}
         <button
           onClick={() => navigate("/owner")}
-          className="border border-white px-4 py-1 text-sm rounded-full text-white hover:bg-white hover:text-black transition-all"
+          className={`px-4 py-1 text-sm rounded-full transition-all border ${
+            isScrolled
+              ? "text-black border-black hover:bg-black hover:text-white"
+              : "text-white border-white hover:bg-white hover:text-black"
+          }`}
         >
           Dashboard
         </button>
@@ -88,8 +100,11 @@ const Navbar = () => {
         <img
           src={assets.searchIcon}
           alt="search"
-          className="h-6 filter invert brightness-0"
+          className={`h-6 transition-all duration-300 ${
+            isScrolled ? "invert opacity-80" : ""
+          }`}
         />
+
         {user ? (
           <UserButton>
             <UserButton.MenuItems>
@@ -158,7 +173,11 @@ const Navbar = () => {
         {user ? (
           <button
             onClick={() => navigate("/owner")}
-            className="border px-4 py-1 text-sm font-light rounded-full"
+            className={`px-4 py-1 text-sm font-light rounded-full transition-all border ${
+              isScrolled
+                ? "text-black border-black hover:bg-black hover:text-white"
+                : "text-white border-white hover:bg-white hover:text-black"
+            }`}
           >
             Dashboard
           </button>

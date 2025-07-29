@@ -17,3 +17,7 @@
 .font-inter {
   font-family: "Inter" !important;
 }
+
+.zIndex_hotReg{
+  z-index: 100% !important;
+}

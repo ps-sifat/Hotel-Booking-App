@@ -1,13 +1,13 @@
 import React from "react";
 // import heroimage from "../assets/heroimage.png";
-import heroimage from "/src/assets/heroImage.png";
+// import heroimage from "/src/assets/heroImage.png";
 
 import { assets, cities } from "../assets/assets";
 const Hero = () => {
   return (
     <div
-      className="flex flex-col items-start justify-center px-6 md:px-16 lg:px-16 xl:px-32 text-white  bg-no-repeat bg-cover bg-center h-screen "
-      style={{ backgroundImage: `url(${heroimage})` }}
+      className="flex flex-col items-start justify-center px-6 md:px-16 lg:px-16 xl:px-32 text-white  bg-no-repeat bg-cover bg-center h-screen heroimage "
+      // style={{ backgroundImage: `url(${heroimage})` }}
     >
       <div>
         <p className="bg-[#49B9FF]/50 px-4 py-2 rounded-full mt-20 w-[221px] text-sm font-normal">

@@ -2,22 +2,28 @@
 
 /* tailwind */
 @import "tailwindcss";
-@theme{
+
+@theme {
   --color-primary: #2563EB;
   --color-secondary: #FBBF24;
 }
 
-*{
-  font-family:  Outfit;
+* {
+  font-family: Outfit;
 }
 
-.font-playfair{
+.font-playfair {
   font-family: Playfair !important;
 }
+
 .font-inter {
   font-family: "Inter" !important;
 }
 
-.zIndex_hotReg{
+.zIndex_hotReg {
   z-index: 100% !important;
+}
+
+.heroimage {
+  background-image: url(./assets/heroImage.png);
 }

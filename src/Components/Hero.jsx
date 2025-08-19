@@ -1,6 +1,4 @@
 import React from "react";
-// import heroImage from "../assets/heroimage.png";
-// import heroImage from "../../src/assets/assets";
 import heroimage from "../assets/heroimage.png";
 
 
